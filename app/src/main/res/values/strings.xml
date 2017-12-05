@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name" translatable="false">UnRooter</string>
+
+    <!-- Status texts shown on the button -->
+    <string name="status_rooted">Device rooted!</string>
+    <string name="status_unrooted">Device unrooted!</string>
+    <string name="status_not_rooted">Device doesn\'t seem rooted!</string>
+    <string name="status_image_description">Status image</string>
+
+    <!-- Longer hints shown under the status text with smaller font -->
+    <string name="hint_rooted">Tap here to temporarily unroot. Remember to root the device again with this app before rebooting or you will lose your root!</string>
+    <string name="hint_unrooted">Tap here to regain root. If you have restarted your device since unrooting temporarily you have to root it again properly.</string>
+    <string name="hint_not_rooted">Are you sure your device is rooted? Alternatively, have you restarted your device since unrooting it? If yes, you have to root it again properly.</string>
+
+    <!-- Toolbar menu titles -->
+    <string name="toolbar_licenses">Third Party Licenses</string>
+</resources>

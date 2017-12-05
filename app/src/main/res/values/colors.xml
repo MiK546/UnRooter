@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Application main colours. -->
+    <color name="colorPrimary">#8265FF</color>
+    <color name="colorPrimaryDark">#6B48FF</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- The colours of the central button in different states. -->
+    <color name="colorRooted">#00D81B</color>
+    <color name="colorUnrooted">#F5B300</color>
+    <color name="colorNotRooted">#FF3030</color>
+</resources>
