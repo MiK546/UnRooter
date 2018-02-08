@@ -1,6 +1,7 @@
 package org.mikko.unrooter;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -71,13 +72,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }else{
             message = StatusChanger.root();
-            if(message.equals("")){
-                mRootedStatus = true;
-                changeStatus(mRootedStatus);
-            }else if(message.equals("?noRoot")){
-                changeStatus("noRoot");
-            }else{
-                showSnackbar(message);
+            switch (message) {
+                case "":
+                    mRootedStatus = true;
+                    changeStatus(mRootedStatus);
+                    break;
+                case "?noRoot":
+                    changeStatus("noRoot");
+                    break;
+                default:
+                    showSnackbar(message);
+                    break;
             }
         }
     }
@@ -114,19 +119,19 @@ public class MainActivity extends AppCompatActivity {
                 mStatusTextView.setText(getString(R.string.status_rooted));
                 mStatusImageView.setImageResource(R.drawable.ic_check_black_24dp);
                 mHintTextView.setText(getString(R.string.hint_rooted));
-                mButtonLayout.setBackgroundColor(getResources().getColor(R.color.colorRooted));
+                mButtonLayout.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorRooted)));
                 break;
             case "unrooted":
                 mStatusTextView.setText(getString(R.string.status_unrooted));
                 mStatusImageView.setImageResource(R.drawable.ic_do_not_disturb_black_24dp);
                 mHintTextView.setText(getString(R.string.hint_unrooted));
-                mButtonLayout.setBackgroundColor(getResources().getColor(R.color.colorUnrooted));
+                mButtonLayout.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorUnrooted)));
                 break;
             case "noRoot":
                 mStatusTextView.setText(getString(R.string.status_not_rooted));
                 mStatusImageView.setImageResource(R.drawable.ic_error_outline_black_24dp);
                 mHintTextView.setText(getString(R.string.hint_not_rooted));
-                mButtonLayout.setBackgroundColor(getResources().getColor(R.color.colorNotRooted));
+                mButtonLayout.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorNotRooted)));
                 break;
         }
     }
