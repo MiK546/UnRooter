@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         String message;
 
         if(mRootedStatus){
-            message = StatusChanger.unRoot();
+            message = StatusChanger.unRoot(this);
             if(message.equals("")){
                 mRootedStatus = false;
                 changeStatus(mRootedStatus);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 showSnackbar(message);
             }
         }else{
-            message = StatusChanger.root();
+            message = StatusChanger.root(this);
             switch (message) {
                 case "":
                     mRootedStatus = true;

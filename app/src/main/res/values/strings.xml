@@ -14,4 +14,8 @@
 
     <!-- Toolbar menu titles -->
     <string name="toolbar_licenses">Third Party Licenses</string>
+
+    <!-- Error messages -->
+    <string name="error_rooting_failed">Rooting failed, device state restored</string>
+    <string name="error_unrooting_failed">Unrooting failed, device state restored</string>
 </resources>

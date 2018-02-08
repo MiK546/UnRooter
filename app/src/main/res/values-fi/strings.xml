@@ -8,4 +8,6 @@
     <string name="hint_not_rooted">Oletko varma että laitteesi on rootattu? Jos olet, oletko uudelleenkäynnistänyt sitä viime roottauksen poiston jälkeen? Jos olet, pitää laite rootata uudelleen normaalisti.</string>
     <string name="toolbar_licenses">Kolmannen osapuolen lisenssit</string>
     <string name="status_image_description">Tila kuva</string>
+    <string name="error_rooting_failed">Roottaus epäonnistui, laitteen tila palautettu</string>
+    <string name="error_unrooting_failed">Roottauksen poisto epäonnistui, laitteen tila palautettu</string>
 </resources>

@@ -1,5 +1,6 @@
 package org.mikko.unrooter;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.io.DataOutputStream;
@@ -10,10 +11,11 @@ import java.io.IOException;
 class StatusChanger {
     /** Roots the device if it has been previously unrooted by the unroot() function.
      *
+     * @param context Context to access string resources. Allows for potentially translatable error messages.
      * @return String describing a possible error happening during the process or an empty string if
      * everything went well.
      */
-    public static String root(){
+    public static String root(Context context){
         int state = 0;
         String message = "";
         try{
@@ -66,7 +68,7 @@ class StatusChanger {
         }else if(state < 4){
             try {
                 reverseRoot(state);
-                message = "Rooting failed, device state restored";
+                message = context.getString(R.string.error_rooting_failed);
             }catch(IOException | InterruptedException e){
                 message = e.getMessage();
             }
@@ -77,10 +79,11 @@ class StatusChanger {
 
     /** Unroots the device.
      *
+     * @param context Context to access string resources. Allows for potentially translatable error messages.
      * @return String describing a possible error happening during the process or an empty string if
      * everything went well.
      */
-    public static String unRoot(){
+    public static String unRoot(Context context){
         int state = 0;
         String message = "";
         try{
@@ -130,7 +133,7 @@ class StatusChanger {
         if(state < 4){
             try {
                 reverseUnRoot(state);
-                message = "Unrooting failed, device state restored";
+                message = context.getString(R.string.error_unrooting_failed);
             }catch(IOException | InterruptedException e){
                 message = e.getMessage();
             }
