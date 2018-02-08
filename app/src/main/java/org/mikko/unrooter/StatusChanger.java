@@ -129,7 +129,7 @@ class StatusChanger {
 
         if(state < 4){
             try {
-                reverseRoot(state);
+                reverseUnRoot(state);
                 message = "Unrooting failed, device state restored";
             }catch(IOException | InterruptedException e){
                 message = e.getMessage();
@@ -146,6 +146,8 @@ class StatusChanger {
      * @throws InterruptedException From Process.waitFor()
      */
     private static void reverseRoot(int state) throws IOException, InterruptedException{
+        // State 4 is not handled as there is only a exit command after that and as such there is
+        // nothing to reverse.
         if(state >= 3) {
             Process suProc = Runtime.getRuntime().exec("su");
             DataOutputStream commandOutput = new DataOutputStream(suProc.getOutputStream());
@@ -191,6 +193,8 @@ class StatusChanger {
      * @throws InterruptedException From Process.waitFor()
      */
     private static void reverseUnRoot(int state) throws IOException, InterruptedException{
+        // State 4 is not handled as there is only a exit command after that and as such there is
+        // nothing to reverse.
         if(state >= 3) {
             Process suProc = Runtime.getRuntime().exec("subackup");
             DataOutputStream commandOutput = new DataOutputStream(suProc.getOutputStream());
@@ -216,7 +220,7 @@ class StatusChanger {
             commandOutput.writeBytes("mount -o rw,remount /system\n");
             commandOutput.flush();
 
-            commandOutput.writeBytes("mv /system/xbin/su /system/xbin/subackup\n");
+            commandOutput.writeBytes("mv /system/xbin/subackup /system/xbin/su\n");
             commandOutput.flush();
 
             commandOutput.writeBytes("mount -o ro,remount /system\n");
