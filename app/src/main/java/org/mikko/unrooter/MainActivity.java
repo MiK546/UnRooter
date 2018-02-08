@@ -1,9 +1,13 @@
 package org.mikko.unrooter;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +20,11 @@ import android.widget.TextView;
 /** Main activity of the application showing a central button to root and unroot the device.
  */
 public class MainActivity extends AppCompatActivity {
+    /** Notification id for the unrooted reminder. */
+    public static final int NOTIFICATION_ID_UNROOTED = 1;
+    /** Notification channel for displaying the unrooted reminder. */
+    private static final String NOTIFICATION_CHANNEL_UNROOTED = "org.mikko.unrooter.channel.unrooted";
+
     TextView mStatusTextView;
     ImageView mStatusImageView;
     TextView mHintTextView;
@@ -31,9 +40,27 @@ public class MainActivity extends AppCompatActivity {
         mStatusImageView = findViewById(R.id.statusImageView);
         mHintTextView = findViewById(R.id.hintTextView);
         mButtonLayout = findViewById(R.id.buttonLayout);
+    }
 
-        mRootedStatus = RootUtil.isDeviceRooted();
-        changeStatus(mRootedStatus);
+    @Override
+    public void onResume() {
+        // check root status on onResume() to ensure it is correct
+        setRootedStatus();
+        if(!mRootedStatus){
+            createNotification();
+        }
+
+        super.onResume();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        // Detects if the user has rooted the device from the notification by checking root status
+        // once the activity gains focus (the notification drawer is pulled up).
+        if (hasFocus) {
+            setRootedStatus();
+        }
+        super.onWindowFocusChanged(hasFocus);
     }
 
     @Override
@@ -55,6 +82,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Changes the activity's status based on if the device is rooted or not and sets the value of
+     * {@link #mRootedStatus}.
+     */
+    private void setRootedStatus(){
+        mRootedStatus = RootUtil.isDeviceRooted();
+        changeStatus(mRootedStatus);
+    }
+
     /** Called when the central button is pressed.
      *
      * @param view -
@@ -67,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             if(message.equals("")){
                 mRootedStatus = false;
                 changeStatus(mRootedStatus);
+                createNotification();
             }else{
                 showSnackbar(message);
             }
@@ -76,9 +113,11 @@ public class MainActivity extends AppCompatActivity {
                 case "":
                     mRootedStatus = true;
                     changeStatus(mRootedStatus);
+                    removeNotification();
                     break;
                 case "?noRoot":
                     changeStatus("noRoot");
+                    removeNotification();
                     break;
                 default:
                     showSnackbar(message);
@@ -95,6 +134,55 @@ public class MainActivity extends AppCompatActivity {
         Snackbar snackbar = Snackbar
                 .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
+
+    /**
+     * Create an notification to tell the user their device is temporarily unrooted.
+     */
+    private void createNotification(){
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent clickIntent = new Intent(this, MainActivity.class);
+        PendingIntent clickPendingIntent = PendingIntent.getActivity(
+                        this,
+                        0,
+                        clickIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        Intent rootIntent = new Intent(this, RootService.class);
+        rootIntent.setAction(RootService.ACTION_ROOT);
+        PendingIntent rootPendingIntent = PendingIntent.getService(this, 0, rootIntent, 0);
+
+        Intent closeIntent = new Intent(this, RootService.class);
+        closeIntent.setAction(RootService.ACTION_CLOSE);
+        PendingIntent closePendingIntent = PendingIntent.getService(this, 0, closeIntent, 0);
+
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_UNROOTED)
+                        .setContentTitle(getString(R.string.notification_title))
+                        .setTicker(getString(R.string.notification_title))
+                        .setContentText(getString(R.string.notification_message))
+                        .setSmallIcon(R.drawable.ic_unrooter_notification_icon)
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(getString(R.string.notification_message)))
+                        .setOngoing(true)
+                        .setContentIntent(clickPendingIntent)
+                        .addAction(R.drawable.ic_lock, getString(R.string.notification_action_root), rootPendingIntent)
+                        .addAction(R.drawable.ic_close_black_24dp, getString(R.string.notification_action_close), closePendingIntent);
+
+        notificationManager.notify(NOTIFICATION_ID_UNROOTED, notificationBuilder.build());
+    }
+
+    /**
+     * Remove the unrooted notification.
+     */
+    private void removeNotification(){
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.cancel(NOTIFICATION_ID_UNROOTED);
     }
 
     /** Change the state of the central button.

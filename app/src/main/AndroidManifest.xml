@@ -18,8 +18,11 @@
         </activity>
         <activity
             android:name=".LicensesActivity"
-            android:parentActivityName=".MainActivity" >
-        </activity>
+            android:parentActivityName=".MainActivity" />
+
+        <service
+            android:name=".RootService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

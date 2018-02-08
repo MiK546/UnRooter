@@ -15,6 +15,12 @@
     <!-- Toolbar menu titles -->
     <string name="toolbar_licenses">Third Party Licenses</string>
 
+    <!-- System notification message -->
+    <string name="notification_title">Device temporarily unrooted.</string>
+    <string name="notification_message">Tap here to open UnRooter to root it again.</string>
+    <string name="notification_action_root">Root</string>
+    <string name="notification_action_close">Close</string>
+
     <!-- Error messages -->
     <string name="error_rooting_failed">Rooting failed, device state restored</string>
     <string name="error_unrooting_failed">Unrooting failed, device state restored</string>
