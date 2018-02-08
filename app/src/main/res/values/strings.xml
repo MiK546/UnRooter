@@ -5,7 +5,7 @@
     <string name="status_rooted">Device rooted!</string>
     <string name="status_unrooted">Device unrooted!</string>
     <string name="status_not_rooted">Device doesn\'t seem rooted!</string>
-    <string name="status_image_description">Status image</string>
+    <string name="status_button_description">Toggle root state</string>
 
     <!-- Longer hints shown under the status text with smaller font -->
     <string name="hint_rooted">Tap here to temporarily unroot. Remember to root the device again with this app before rebooting or you will lose your root!</string>

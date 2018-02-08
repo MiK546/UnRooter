@@ -20,6 +20,7 @@
         android:backgroundTint="@color/colorRooted"
         android:elevation="6dp"
         android:onClick="onRootChange"
+        android:contentDescription="@string/status_button_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@
             app:layout_constraintStart_toStartOf="@+id/leftGuideline"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_check_black_24dp"
-            android:contentDescription="@string/status_image_description" />
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/statusTextView"
